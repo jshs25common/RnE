@@ -13,14 +13,8 @@ app.get('/patient', function (req, res) {
     res.sendFile(__dirname + '/patient_list.html')
 })
 
-app.get('/patient/:id', function (req, res) {
-    const name = req.params.id
-    console.log(name)
-    res.sendFile(__dirname + '/patient_status.html')
-})
-
-app.get('/admin', function (req, res) {
-    res.sendFile(__dirname + '/rescue.html')
+app.get('/map', function (req, res) {
+    res.sendFile(__dirname + '/map.html')
 })
 
 app.listen(port)
