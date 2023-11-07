@@ -1,30 +1,25 @@
-const mongoose = require('mongoose');
 const express = require('express')
 const app = express()
+const bodyParser = require("body-parser");
+const port = 80
+const cors = require('cors')
+const userRoutes = require("./routes/user-routes");
 
-const connect = () => {
+app.use(express.json());
+app.use(cors());
+app.use(bodyParser.json());
+app.use("/api", userRoutes.routes);
 
-    if (process.env.NODE_ENV !== 'production') {
-        mongoose.set('debug', true);
-    }
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/main.html')
+})
 
-    mongoose.connect('mongodb://Ryan:sh51246378@localhost:27017/nodejs', {
-        dbName: 'nodejs',
-        useNewUrlParser: true,
-    }, (error) => {
-        if (error) {
-            console.log('MongoDB Connection Error', error);
-        } else {
-            console.log('MongoDB Connection Success');
-        }
-    });
-};
+app.get('/patient', function (req, res) {
+    res.sendFile(__dirname + '/patient_list.html')
+})
 
-mongoose.connection.on('error', (error) => {
-    console.error('MongoDB Connection Error')
-});
-mongoose.connection.on('disconnected', () => {
-    console.error('MongoDB Disconnected. Reconnecting')
-});
+app.get('/map', function (req, res) {
+    res.sendFile(__dirname + '/map.html')
+})
 
-module.exports = connect;
+app.listen(port)
