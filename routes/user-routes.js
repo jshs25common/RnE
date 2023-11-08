@@ -6,5 +6,5 @@ const router = express.Router();
 router.post("/user", addUser);
 
 module.exports = {
-    routes: route
+    routes: router
 };
