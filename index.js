@@ -19,8 +19,19 @@ const firebaseConfig = {
     measurementId: process.env.MEASUREMENT_ID,
 };
 
-////////firebase Initialization
 firebase.initializeApp(firebaseConfig);
+
+app.get('/patient_data', function (req, res) {
+    firebase.database().ref("approved_users").once("value", (snapshot) => {
+        if (snapshot.val() !== null) {
+            res.json(snapshot.val());
+        } else {
+            res.json({ message: "데이터를 찾지 못했습니다!" });
+        }
+    });
+});
+
+firebase.database().ref("approved_users/").update({ patient: [1, [1, 0, 1, 0, 0, 0, 1], '(32.5, 126.5)'] });
 
 app.use(express.json());
 app.use(cors());
@@ -38,14 +49,3 @@ app.get('/map', function (req, res) {
 })
 
 app.listen(port)
-
-firebase.database().ref("approved_users")
-    .on("value", (snapshot) => {
-        if (snapshot.val() !== null) {
-            console.log(snapshot.val());
-        } else {
-            console.log("데이터를 찾지 못했습니다!");
-        }
-    });
-
-firebase.database().ref("approved_users/").update({ patient: [1, [1, 0, 1, 0, 0, 0, 1], '(32.5, 126.5)'] });

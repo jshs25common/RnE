@@ -10,4 +10,28 @@
 
 <body>
     <h1>환자 리스트</h1>
+    <form>
+        <button id='get'>환자 정보 불러오기</button>
+    </form>
+
+    <div id="data"></div>
+
+    <script>
+        document.getElementById('get').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            fetch('/patient_data')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    const dataDiv = document.getElementById('data');
+                    dataDiv.innerHTML = '';
+                    const p = document.createElement('p');
+                    p.textContent = JSON.stringify(data);
+                    dataDiv.appendChild(p);
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+
 </body>
